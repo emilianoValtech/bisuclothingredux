@@ -8,6 +8,7 @@ export const UserContext = createContext({
     setCurrentUser: () => null,
 })
 
+
 // provider to provide the value we access above
 export const UserProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(null)
@@ -28,3 +29,5 @@ export const UserProvider = ({children}) => {
     {children}
   </UserContext.Provider>
 }
+
+
