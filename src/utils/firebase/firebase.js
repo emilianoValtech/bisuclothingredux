@@ -10,7 +10,7 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, collection , writeBatch, query, getDocs} from 'firebase/firestore';
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyAsSrDFhIu9OfBMU83qZMpkT5AbhSfEMBc',
@@ -43,6 +43,41 @@ export const signInWithGoogleRedirect = () =>
 
 //Get our database from firestore service
 export const db = getFirestore();
+
+//convert JSON into firestore collection
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const batch = writeBatch(db);
+  const collectionRef = collection(db, collectionKey);
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object)
+  })
+
+  await batch.commit();
+}
+
+//get the collection categories
+export const getCategoriesAndDocuments = async () => {
+  //create a ref
+  const collectionRef = collection(db, 'categories');
+  //create a query passing the ref
+  const q = query(collectionRef)
+
+  //snapshots always get a .data()
+  const querySnapshot = await getDocs(q)
+
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const {title, items} = docSnapshot.data();
+    acc[title.toLowerCase()] = items;
+    return acc
+  }, {})
+
+  return categoryMap
+}
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
   if (!userAuth) return;

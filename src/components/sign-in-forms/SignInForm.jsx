@@ -1,9 +1,12 @@
 import React from 'react';
-import { useState} from 'react';
-import { signInWithGooglePopup, signInUserWithEmailAndPassword, } from '../../utils/firebase/firebase';
-import Button from '../button/Button';
+import { useState } from 'react';
+import {
+  signInWithGooglePopup,
+  signInUserWithEmailAndPassword,
+} from '../../utils/firebase/firebase';
+import Button, { BUTTON_TYPE_CLASSES } from '../button/Button';
 import FormInput from '../form-input/FormInput';
-import './styles.scss'
+import './styles.scss';
 
 const defaultFormFields = {
   email: '',
@@ -20,26 +23,26 @@ const SignInForm = () => {
   };
 
   const resetFormFields = () => {
-    setFormFields(defaultFormFields)
-  }
+    setFormFields(defaultFormFields);
+  };
 
   const signInWithGoogle = async () => {
     await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     try {
-      const {user} = await signInUserWithEmailAndPassword(email, password)
-      resetFormFields()
+      const { user } = await signInUserWithEmailAndPassword(email, password);
+      resetFormFields();
     } catch (error) {
       switch (error.code) {
         case 'auth/wrong-password':
-          alert('incorrect password for email')
+          alert('incorrect password for email');
           break;
         case 'auth/user-not-found':
-          alert('user not found')
+          alert('user not found');
           break;
         default:
           console.log(error);
@@ -55,7 +58,7 @@ const SignInForm = () => {
         <FormInput
           label='Email'
           name='email'
-          type="email"
+          type='email'
           onChange={handleChange}
           value={email}
           required
@@ -69,8 +72,16 @@ const SignInForm = () => {
           required
         />
         <div className='buttons-container'>
-          <Button buttonType='inverted' type='submit'>Sign In</Button>
-          <Button buttonType='google' type='button' onClick={signInWithGoogle}>Google sign in</Button>
+          <Button buttonType={BUTTON_TYPE_CLASSES.inverted} type='submit'>
+            Sign In
+          </Button>
+          <Button
+            buttonType={BUTTON_TYPE_CLASSES.google}
+            type='button'
+            onClick={signInWithGoogle}
+          >
+            Google sign in
+          </Button>
         </div>
       </form>
     </div>
