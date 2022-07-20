@@ -38,8 +38,6 @@ export const auth = getAuth();
 //General functions to sign in passing the instance for auth and google auth provider
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
-export const signInWithGoogleRedirect = () =>
-  signInWithRedirect(auth, googleProvider);
 
 //Get our database from firestore service
 export const db = getFirestore();

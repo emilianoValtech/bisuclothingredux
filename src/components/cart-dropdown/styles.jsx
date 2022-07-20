@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-import { BaseButton, GoogleSignInButton, InvertedButton } from '../button/styles';
+import {
+  BaseButton,
+  GoogleSignInButton,
+  InvertedButton,
+} from '../button/styles';
 
 export const CartDropdownContainer = styled.div`
   position: absolute;
@@ -32,4 +36,7 @@ export const CartItems = styled.div`
   display: flex;
   flex-direction: column;
   overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
